@@ -13,11 +13,13 @@ from .models import Product
 def get_urls(request):
     if request.method == 'POST':
         form = UrlsForm(request.POST)
+
         if form.is_valid():
             product_list = []
             data = form.cleaned_data.get('urls')
             urls = data.splitlines()
             results, invalids = sc.scrape(urls)
+
             for result in results:
                 product = Product()
                 product.index = result['Indeks']
@@ -26,11 +28,11 @@ def get_urls(request):
                 product.price = result['Cena']
                 product.gender = result['Płeć']
                 product.url = result['Adres zdjecia']
+                
                 if result.get('Opis dodatkowy') is not None:
                     product.description = result['Opis dodatkowy']
                 if result.get('Cena przed promocja') is not None:
                     product.price_old = result['Cena przed promocja']
-
 
                 product_list.append(product)
                 product.save()
