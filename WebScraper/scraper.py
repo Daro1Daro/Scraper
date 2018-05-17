@@ -85,7 +85,7 @@ def get_mandatory_elements(html):
     for element, class_name in elements_text.items():
         value = get_element_text(html, class_name)
 
-        if value is None or value == "" and element != "Cena przed promocja":
+        if element != "Cena przed promocja" and (value is None or value == ""):
             raise ScrapingError("Mandatory element \'{}\' not found on the site.".format(element))
 
         results[element] = value
