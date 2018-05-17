@@ -26,8 +26,11 @@ def get_urls(request):
                 product.price = result['Cena']
                 product.gender = result['Płeć']
                 product.url = result['Adres zdjecia']
-                product.price_old = result['Cena przed promocja']
-                #product.description = result['Opis dodatkowy']
+                if result.get('Opis dodatkowy') is not None:
+                    product.description = result['Opis dodatkowy']
+                if result.get('Cena przed promocja') is not None:
+                    product.price_old = result['Cena przed promocja']
+
 
                 product_list.append(product)
                 product.save()
